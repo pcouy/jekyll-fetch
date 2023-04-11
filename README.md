@@ -1,24 +1,33 @@
 # JekyllHttp
 
-TODO: Delete this and the text below, and describe your gem
-
-Welcome to your new gem! In this directory, you'll find the files you need to be able to package up your Ruby library into a gem. Put your Ruby code in the file `lib/jekyll_http`. To experiment with that code, run `bin/console` for an interactive prompt.
+This plugin adds a new `fetch` filter that allows you to include content from an HTTP URL.
 
 ## Installation
 
-TODO: Replace `UPDATE_WITH_YOUR_GEM_NAME_PRIOR_TO_RELEASE_TO_RUBYGEMS_ORG` with your gem name right after releasing it to RubyGems.org. Please do not do it earlier due to security reasons. Alternatively, replace this section with instructions to install your gem from git if you don't plan to release to RubyGems.org.
-
 Install the gem and add to the application's Gemfile by executing:
 
-    $ bundle add UPDATE_WITH_YOUR_GEM_NAME_PRIOR_TO_RELEASE_TO_RUBYGEMS_ORG
+    $ bundle add jekyll-fetch
 
-If bundler is not being used to manage dependencies, install the gem by executing:
+Add the plugin to your `_config.yml`:
 
-    $ gem install UPDATE_WITH_YOUR_GEM_NAME_PRIOR_TO_RELEASE_TO_RUBYGEMS_ORG
+```yaml
+plugins:
+  - jekyll-fetch
+```
 
 ## Usage
 
-TODO: Write usage instructions here
+Simply pass the URL you want to fetch the content from to the filter :
+
+```
+{{ "https://raw.githubusercontent.com/pcouy/jekyll-fetch/main/README.md" | fetch }}
+```
+
+The example above will render to the raw markdown of this readme. You can chain it with the `markdownify` filter to render it :
+
+```
+{{ "https://raw.githubusercontent.com/pcouy/jekyll-fetch/main/README.md" | fetch  | markdownify }}
+```
 
 ## Development
 
@@ -26,9 +35,15 @@ After checking out the repo, run `bin/setup` to install dependencies. You can al
 
 To install this gem onto your local machine, run `bundle exec rake install`. To release a new version, update the version number in `version.rb`, and then run `bundle exec rake release`, which will create a git tag for the version, push git commits and the created tag, and push the `.gem` file to [rubygems.org](https://rubygems.org).
 
+You can use your local development version of this plugin by modifying the `Gemfile` of your website to look like the following :
+
+```
+gem "jekyll-fetch", "~> VERSION", :path => "/path/to/your/local/jekyll-fetch"
+```
+
 ## Contributing
 
-Bug reports and pull requests are welcome on GitHub at https://github.com/[USERNAME]/jekyll_http.
+Bug reports and pull requests are welcome on GitHub at https://github.com/pcouy/jekyll-fetch.
 
 ## License
 
