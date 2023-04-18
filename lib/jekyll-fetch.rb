@@ -13,14 +13,27 @@ module Jekyll
     class Utils
       class << self
         def fetch(uri_str, limit = 10)
-          raise ArgumentError, 'HTTP redirect too deep' if limit.zero?
+          raise ArgumentError, 'Max retries reached' if limit.zero?
+
+          begin
+            unsafe_fetch(uri_str, limit)
+          rescue Errno::ECONNREFUSED
+            Jekyll.logger.warn "Connection refused for #{uri_str}, retrying in 2s..."
+            sleep 2
+            Jekyll.logger.warn "Retrying (#{limit - 1} tries left)"
+            fetch(uri_str, limit - 1)
+          end
+        end
+
+        private
+
+        def unsafe_fetch(uri_str, limit)
+          raise ArgumentError, 'Max retries reached' if limit.zero?
 
           response_to_body(
             uri_to_response(uri_str), limit - 1
           )
         end
-
-        private
 
         def uri_to_response(uri_str)
           url = URI.parse(uri_str)
