@@ -7,6 +7,9 @@ require 'net/https'
 module Jekyll
   # Filters for transforming URL strings into the content at the URL
   module JekyllFetch
+    CONFIG = {
+      'default_github_branch' => 'main'
+    }.freeze
     class Error < StandardError; end
 
     # Helper functions for HTTP requests
@@ -23,6 +26,10 @@ module Jekyll
             Jekyll.logger.warn "Retrying (#{limit - 1} tries left)"
             fetch(uri_str, limit - 1)
           end
+        end
+
+        def config
+          @config ||= CONFIG.merge(JEKYLL_SITE.config['fetch'] || {})
         end
 
         private
@@ -63,16 +70,22 @@ module Jekyll
       "https://github.com/#{repo}"
     end
 
-    def github_readme(repo)
-      Jekyll.logger.debug "github_readme(#{repo})"
-      github_file repo, 'README.md'
+    def github_readme(repo, branch = nil)
+      branch ||= Utils.config['default_github_branch']
+      Jekyll.logger.debug "github_readme(#{repo}, #{branch})"
+      github_file repo, 'README.md', branch
     end
 
-    def github_file(repo, file)
-      Jekyll.logger.debug "github_file(#{repo}, #{file})"
-      fetch "#{github_url(repo)}/raw/main/#{file}"
+    def github_file(repo, file, branch = nil)
+      branch ||= Utils.config['default_github_branch']
+      Jekyll.logger.debug "github_file(#{repo}, #{file}, #{branch})"
+      fetch "#{github_url(repo)}/raw/#{branch}/#{file}"
     end
   end
 end
 
 Liquid::Template.register_filter(Jekyll::JekyllFetch)
+
+Jekyll::Hooks.register :site, :after_init do |site|
+  Jekyll::JekyllFetch::JEKYLL_SITE = site
+end

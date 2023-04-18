@@ -42,6 +42,25 @@ Will render to the content of the `README.md` file from the repository
 Will render to the content of the specified file from the repository
 ```
 
+### Specify GitHub branches
+
+You can change the default branch used for retrieving GitHub files from main to the value of your choice by updating `_config.yml` :
+
+```yaml
+fetch: # Config section for the plugin
+  default_github_branch: main # This is the default value but you can use whatever you want
+```
+
+The `github_readme` and `github_file` accept an optional argument for one-time overrides of the branch : 
+
+```
+{{ "gh_user/repo_name" | github_readme: 'branch_name' }}
+Will render to the content of the `README.md` file from the repository
+
+{{ "gh_user/repo_name" | github_file: "path/to/file/in/repo", "branch_name" }}
+Will render to the content of the specified file from the repository
+```
+
 ## Development
 
 After checking out the repo, run `bin/setup` to install dependencies. You can also run `bin/console` for an interactive prompt that will allow you to experiment.
