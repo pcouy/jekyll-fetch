@@ -42,7 +42,7 @@ module Jekyll
     def fetch(uri_str, limit = 10)
       raise ArgumentError, 'HTTP redirect too deep' if limit.zero?
 
-      puts uri_str
+      Jekyll.logger.debug "fetch(#{uri_str})"
       Utils.fetch(uri_str, limit)
     end
   end
