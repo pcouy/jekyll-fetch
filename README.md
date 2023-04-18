@@ -37,6 +37,9 @@ Will render to : https://github.com/gh_user/repo_name
 
 {{ "gh_user/repo_name" | github_readme }}
 Will render to the content of the `README.md` file from the repository
+
+{{ "gh_user/repo_name" | github_file: "path/to/file/in/repo" }}
+Will render to the content of the specified file from the repository
 ```
 
 ## Development

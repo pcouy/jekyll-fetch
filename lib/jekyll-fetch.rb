@@ -65,7 +65,12 @@ module Jekyll
 
     def github_readme(repo)
       Jekyll.logger.debug "github_readme(#{repo})"
-      fetch "#{github_url(repo)}/raw/main/README.md"
+      github_file repo, 'README.md'
+    end
+
+    def github_file(repo, file)
+      Jekyll.logger.debug "github_file(#{repo}, #{file})"
+      fetch "#{github_url(repo)}/raw/main/#{file}"
     end
   end
 end
