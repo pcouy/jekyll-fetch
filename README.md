@@ -29,6 +29,16 @@ The example above will render to the raw markdown of this readme. You can chain 
 {{ "https://raw.githubusercontent.com/pcouy/jekyll-fetch/main/README.md" | fetch  | markdownify }}
 ```
 
+Additionally, this plugin contains helper filters that help you work with files from GitHub repositories :
+
+```
+{{ "gh_user/repo_name" | github_url }}
+Will render to : https://github.com/gh_user/repo_name
+
+{{ "gh_user/repo_name" | github_readme }}
+Will render to the content of the `README.md` file from the repository
+```
+
 ## Development
 
 After checking out the repo, run `bin/setup` to install dependencies. You can also run `bin/console` for an interactive prompt that will allow you to experiment.

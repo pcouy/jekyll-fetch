@@ -45,6 +45,15 @@ module Jekyll
       Jekyll.logger.debug "fetch(#{uri_str})"
       Utils.fetch(uri_str, limit)
     end
+
+    def github_url(repo)
+      "https://github.com/#{repo}"
+    end
+
+    def github_readme(repo)
+      Jekyll.logger.debug "github_readme(#{repo})"
+      fetch "#{github_url(repo)}/raw/main/README.md"
+    end
   end
 end
 
